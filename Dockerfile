@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.10-alpine3.13
 LABEL maintainer="ig.hizhnyak@gmail.com"
 
 EXPOSE 8000
@@ -18,7 +18,7 @@ ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /tmp/requirements.txt && \
-    if [ $DEV = "true" ]; \
+    if [$DEV = "true"]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
     rm -rf /tmp && \
@@ -27,6 +27,6 @@ RUN python -m venv /py && \
         --no-create-home \
         wirelocks-user
 
-ENV PATH="/py/bin/:$PATH"
+ENV PATH="/py/bin:$PATH"
 
 USER wirelocks-user
