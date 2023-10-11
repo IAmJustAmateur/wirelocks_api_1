@@ -2,9 +2,9 @@
 Database models
 """
 
+from datetime import datetime
 from django.db import models
 
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -51,7 +51,15 @@ class Device(models.Model):
     device_id = models.CharField(max_length=255, unique=True, blank=False)
     device_info = models.JSONField(default=None, blank=True, null=True)
     created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    updated_at = models.DateTimeField(null=True)
+
+    def __str__(self):
+        return f'{self.device_id}: {self.device_info}'
+
+    def save(self, *args, **kwargs) -> None:
+        d = datetime.now()
+        self.updated_at = d
+        return super().save(*args, **kwargs)
 
 
 class DeviceMessage(models.Model):
