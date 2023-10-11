@@ -44,4 +44,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    
+
+
+class Device(models.Model):
+    """Device model"""
+    device_id = models.CharField(max_length=255, unique=True, blank=False)
+    device_info = models.JSONField(default=None, blank=True, null=True)
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
+
+
+class DeviceMessage(models.Model):
+    """Device message"""
+    device = models.ForeignKey(Device, null=False, on_delete=models.CASCADE)
+    message_text = models.TextField(null=False, blank=False)
+    other_info = models.JSONField(default=None, blank=True, null=True)
+    received_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
