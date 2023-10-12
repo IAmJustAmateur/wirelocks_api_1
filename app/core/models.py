@@ -45,27 +45,27 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
+class TimeStampMixin(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-class Device(models.Model):
+    class Meta:
+        abstract = True
+
+class Device(TimeStampMixin):
     """Device model"""
     device_id = models.CharField(max_length=255, unique=True, blank=False)
     device_info = models.JSONField(default=None, blank=True, null=True)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField(null=True)
 
     def __str__(self):
         return f'{self.device_id}: {self.device_info}'
 
-    def save(self, *args, **kwargs) -> None:
-        d = datetime.now()
-        self.updated_at = d
-        return super().save(*args, **kwargs)
 
-
-class DeviceMessage(models.Model):
+class DeviceMessage(TimeStampMixin):
     """Device message"""
     device = models.ForeignKey(Device, null=False, on_delete=models.CASCADE)
     message_text = models.TextField(null=False, blank=False)
     other_info = models.JSONField(default=None, blank=True, null=True)
-    received_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+
+    def __str__(self):
+        return f'{self.device.device_id}: {self.id}: {self.message_text}'
