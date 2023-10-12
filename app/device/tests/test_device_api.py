@@ -36,8 +36,8 @@ def create_user(**params):
 def create_device(**params):
     """Helper function. Create device."""
     defaults = {
-            "device_id": 'SomeDeviceId',
-            "device_info": json.dumps({'info': 'some info', 'some number': 123}),
+        "device_id": 'SomeDeviceId',
+        "device_info": json.dumps({'info': 'some info', 'some number': 123}),
     }
     defaults.update(params)
 
@@ -93,3 +93,18 @@ class PrivateDeviceApiTests(TestCase):
         res = self.client.get(url)
         serializer = DeviceDetailSerializer(device)
         self.assertEqual(res.data, serializer.data)
+
+    def test_create_device(self):
+        """Test creating device"""
+        device_info = {'info': 'some info', 'some number': 123}
+        payload = {
+            "device_id": 'SomeDeviceId',
+            "device_info": json.dumps(device_info),
+        }
+        res = self.client.post(DEVICES_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        device = Device.objects.get(id=res.data['id'])
+
+        self.assertEqual(device.device_id, payload["device_id"])
+        self.assertEqual(device.device_info, device_info)
