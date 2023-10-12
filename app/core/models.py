@@ -2,7 +2,6 @@
 Database models
 """
 
-from datetime import datetime
 from django.db import models
 
 from django.contrib.auth.models import (
@@ -10,6 +9,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
+
 
 class UserManager(BaseUserManager):
     """Manager for users."""
@@ -45,12 +45,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
+
 class TimeStampMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
+
 
 class Device(TimeStampMixin):
     """Device model"""

@@ -8,21 +8,22 @@ from core.models import (
     DeviceMessage,
 )
 
+
 class DeviceSerializer(serializers.ModelSerializer):
     """Serializer for devices."""
 
-    class  Meta:
+    class Meta:
         model = Device
         fields = ['id', 'device_id']
-        read_only_fields = ['id' ]
+        read_only_fields = ['id']
 
 
 class DeviceDetailSerializer(serializers.ModelSerializer):
     """Serializer for device detail."""
-    class  Meta:
+    class Meta:
         model = Device
         fields = DeviceSerializer.Meta.fields + ["device_info"]
-        read_only_fields = ['id' ]
+        read_only_fields = ['id']
 
 
 class DeviceMessageSerializer(serializers.ModelSerializer):

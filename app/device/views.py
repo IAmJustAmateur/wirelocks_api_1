@@ -22,6 +22,7 @@ from core.models import (
 )
 from . import serializers
 
+
 class DeviceViewSet(viewsets.ModelViewSet):
     """View for manage topic APIs."""
     serializer_class = serializers.DeviceDetailSerializer
@@ -41,7 +42,7 @@ class DeviceViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        """Create a new topic"""
+        """Create a new device."""
         if serializer.is_valid():
             serializer.save()
         else:

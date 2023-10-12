@@ -49,6 +49,7 @@ def create_device_message(**params):
     """Helper function. Create device message."""
     pass
 
+
 class PublicDeviceAPITests(TestCase):
     """Test unauthenticated API requests."""
 
@@ -107,4 +108,22 @@ class PrivateDeviceApiTests(TestCase):
         device = Device.objects.get(id=res.data['id'])
 
         self.assertEqual(device.device_id, payload["device_id"])
+        self.assertEqual(device.device_info, device_info)
+
+    def test_partial_update(self):
+        """Test partial update of a device."""
+        device = create_device()
+        device_info = {
+            "info": "some other info",
+            "some text": "simple text"
+        }
+        payload = {
+            "device_info":  json.dumps(device_info)
+        }
+        url = detail_url(device_id=device.id)
+        res = self.client.patch(url, payload)
+
+        device.refresh_from_db()
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(device.device_info, device_info)
