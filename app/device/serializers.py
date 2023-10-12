@@ -9,11 +9,19 @@ from core.models import (
 )
 
 class DeviceSerializer(serializers.ModelSerializer):
-    """Serializers for devices."""
+    """Serializer for devices."""
 
     class  Meta:
         model = Device
-        fields = ['id', 'device_id', 'device_info']
+        fields = ['id', 'device_id']
+        read_only_fields = ['id' ]
+
+
+class DeviceDetailSerializer(serializers.ModelSerializer):
+    """Serializer for device detail."""
+    class  Meta:
+        model = Device
+        fields = DeviceSerializer.Meta.fields + ["device_info"]
         read_only_fields = ['id' ]
 
 
