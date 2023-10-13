@@ -1,7 +1,6 @@
 """
 Test for device APIs.
 """
-import json
 from django.test import TestCase
 from django.urls import reverse
 
@@ -84,11 +83,14 @@ class PrivateDeviceMessageApiTests(TestCase):
 
         msg1 = create_device_message(device=device1)
         msg2 = create_device_message(device=device2)
+        msg3 = create_device_message(device=device1)
 
         res = self.client.get(DEVICEMESSAGES_URL, {'device_id': device1.id})
-        deviceMessages = DeviceMessage.objects.all().order_by('-id').filter(device=device1)
+        deviceMessages = DeviceMessage.objects.all() \
+            .order_by('-id').filter(device=device1)
         serializer = DeviceMessageSerializer(deviceMessages, many=True)
         self.assertEqual(res.data, serializer.data)
 
         self.assertIn(msg1, deviceMessages)
+        self.assertIn(msg3, deviceMessages)
         self.assertNotIn(msg2, deviceMessages)

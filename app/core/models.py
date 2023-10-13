@@ -60,7 +60,10 @@ class Device(TimeStampMixin):
     device_info = models.JSONField(default=None, blank=True, null=True)
 
     def __str__(self):
-        return f'{self.device_id}: {self.device_info}'
+        return (
+            f'{self.device_id}: {self.device_info}: '
+            f'{self.created_at}: {self.updated_at}'
+        )
 
 
 class DeviceMessage(TimeStampMixin):
@@ -70,4 +73,7 @@ class DeviceMessage(TimeStampMixin):
     other_info = models.JSONField(default=None, blank=True, null=True)
 
     def __str__(self):
-        return f'{self.device.device_id}: {self.id}: {self.message_text}'
+        return (
+            f'{self.device.device_id}: {self.id}: {self.message_text}: '
+            f'{self.created_at}: {self.updated_at}'
+        )

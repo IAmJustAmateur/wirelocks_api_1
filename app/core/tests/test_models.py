@@ -15,7 +15,11 @@ class TestModels(TestCase):
             device_info={'info': 'some info', 'some number': 123},
         )
         self.assertEqual(
-            str(device), f'{device.device_id}: {device.device_info}'
+            str(device),
+            (
+                f'{device.device_id}: {device.device_info}: '
+                f'{device.created_at}: {device.updated_at}'
+            )
         )
         self.assertGreaterEqual(device.updated_at, device.created_at)
 
@@ -32,6 +36,10 @@ class TestModels(TestCase):
         )
         self.assertEqual(
             str(deviceMessage),
-            f'{device.device_id}: {deviceMessage.id}: This is message'
+            (
+                f'{device.device_id}: {deviceMessage.id}: This is message: '
+                f'{deviceMessage.created_at}: {deviceMessage.updated_at}'
+            )
+
         )
         self.assertGreaterEqual(deviceMessage.created_at, device.created_at)

@@ -42,6 +42,30 @@ class UserAdmin(BaseUserAdmin):
     )
 
 
+class DeviceAdmin(admin.ModelAdmin):
+    ordering = ['id']
+    fields = [
+        'device_id',
+        'device_info',
+        'created_at',
+        'updated_at',
+    ]
+    readonly_fields = ['created_at', 'updated_at']
+
+
+class DeviceMessageAdmin(admin.ModelAdmin):
+    ordering = ['id']
+    fields = [
+        'device',
+        'message_text',
+        'other_info',
+        'created_at',
+        'updated_at',
+    ]
+    readonly_fields = ['created_at', 'updated_at']
+
+
 admin.site.register(models.User, UserAdmin)
-admin.site.register(models.Device)
-admin.site.register(models.DeviceMessage)
+
+admin.site.register(models.Device, DeviceAdmin)
+admin.site.register(models.DeviceMessage, DeviceMessageAdmin)
