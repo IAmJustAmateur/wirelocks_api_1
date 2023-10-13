@@ -65,6 +65,6 @@ class PrivateDeviceMessageApiTests(TestCase):
         res = self.client.get(DEVICEMESSAGES_URL)
 
         deviceMessages = DeviceMessage.objects.all().order_by('-id')
-        serializer = DeviceSerializer(deviceMessages, many=True)
+        serializer = DeviceMessageSerializer(deviceMessages, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data[0], serializer.data[0])
+        self.assertEqual(res.data, serializer.data)
