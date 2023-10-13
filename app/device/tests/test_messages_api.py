@@ -1,6 +1,8 @@
 """
 Test for device APIs.
 """
+import json
+
 from django.test import TestCase
 from django.urls import reverse
 
@@ -94,3 +96,22 @@ class PrivateDeviceMessageApiTests(TestCase):
         self.assertIn(msg1, deviceMessages)
         self.assertIn(msg3, deviceMessages)
         self.assertNotIn(msg2, deviceMessages)
+
+    def test_create_deviceMessage(self):
+        """Test creating deviceMessage"""
+
+        device = create_device()
+
+        other_info = {'info': 'some info', 'some number': 123}
+        payload = {
+            "device": device.id,
+            "message_text": "some text",
+            "other_info": json.dumps(other_info),
+        }
+        res = self.client.post(DEVICEMESSAGES_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        deviceMessage = DeviceMessage.objects.get(id=res.data['id'])
+
+        serializer = DeviceMessageDetailSerializer(deviceMessage)
+        self.assertEqual(res.data, serializer.data)
