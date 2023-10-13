@@ -9,11 +9,13 @@ from django.urls import (
 
 from rest_framework.routers import DefaultRouter
 
+
 from device import views
 
 
 router = DefaultRouter()
 router.register('devices', views.DeviceViewSet)
+router.register('devicemessages', views.DeviceMessageViewSet)
 
 app_name = 'device'
 

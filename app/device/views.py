@@ -49,6 +49,32 @@ class DeviceViewSet(viewsets.ModelViewSet):
             print(serializer.errors)
 
 
+class DeviceMessageViewSet(viewsets.ModelViewSet):
+    """View for manage topic APIs."""
+    serializer_class = serializers.DeviceMessageDetailSerializer
+    queryset = DeviceMessage.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        """Retrieve devices."""
+        return self.queryset.order_by('-id')
+
+    def get_serializer_class(self):
+        """Return the serializer class for request."""
+        if self.action == 'list':
+            return serializers.DeviceMessageSerializer
+
+        return self.serializer_class
+
+    def perform_create(self, serializer):
+        """Create a new device."""
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            print(serializer.errors)
+
+
 # @extend_schema_view(
 #     list=extend_schema(
 #         parameters=[

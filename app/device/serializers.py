@@ -31,5 +31,14 @@ class DeviceMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DeviceMessage
-        fields = ['id', 'message_text', 'other_info']
+        fields = ['id','message_text']
+        read_only_fields = ['id']
+
+
+class DeviceMessageDetailSerializer(serializers.ModelSerializer):
+    """Serializer for device message."""
+
+    class Meta:
+        model = DeviceMessage
+        fields = DeviceMessageSerializer.Meta.fields + ["other_info"]
         read_only_fields = ['id']

@@ -4,21 +4,20 @@ Test for device APIs.
 import json
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth import get_user_model
 
 from rest_framework import status
 from rest_framework.test import APIClient
 
 from core.models import (
     Device,
-    DeviceMessage
 )
 
 from device.serializers import (
     DeviceSerializer,
     DeviceDetailSerializer,
-    DeviceMessageSerializer,
 )
+
+from . utils import create_user, create_device
 
 DEVICES_URL = reverse('device:device-list')
 
@@ -26,28 +25,6 @@ DEVICES_URL = reverse('device:device-list')
 def detail_url(device_id):
     """create and return device url"""
     return reverse('device:device-detail', args=[device_id])
-
-
-def create_user(**params):
-    """Create and return a new user."""
-    return get_user_model().objects.create_user(**params)
-
-
-def create_device(**params):
-    """Helper function. Create device."""
-    defaults = {
-        "device_id": 'SomeDeviceId',
-        "device_info": json.dumps({'info': 'some info', 'some number': 123}),
-    }
-    defaults.update(params)
-
-    device = Device.objects.create(**defaults)
-    return device
-
-
-def create_device_message(**params):
-    """Helper function. Create device message."""
-    pass
 
 
 class PublicDeviceAPITests(TestCase):
