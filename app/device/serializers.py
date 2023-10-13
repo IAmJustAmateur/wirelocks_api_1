@@ -31,12 +31,12 @@ class DeviceMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DeviceMessage
-        fields = ['id','message_text']
+        fields = ['id', 'message_text']
         read_only_fields = ['id']
 
 
 class DeviceMessageDetailSerializer(serializers.ModelSerializer):
-    """Serializer for device message."""
+    """Serializer for device message detail."""
 
     class Meta:
         model = DeviceMessage

@@ -74,6 +74,17 @@ class DeviceMessageViewSet(viewsets.ModelViewSet):
         else:
             print(serializer.errors)
 
+    def get_queryset(self):
+        """Filter queryset to device."""
+        device_id = bool(
+            int(self.request.query_params.get('device_id', 0))
+        )
+        queryset = self.queryset
+        if device_id:
+            queryset = queryset.filter(device = self.request.query_params.get('device_id', 0))
+
+        return queryset.order_by('-id').distinct()
+
 
 # @extend_schema_view(
 #     list=extend_schema(
