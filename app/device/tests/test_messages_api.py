@@ -77,6 +77,28 @@ class PrivateDeviceMessageApiTests(TestCase):
         serializer = DeviceMessageDetailSerializer(msg)
         self.assertEqual(res.data, serializer.data)
 
+    def test_filtering_messages_by_device_id(self):
+        """Test filtering messages by device"""
+
+        device1 = create_device()
+        device2 = create_device(device_id="Some other device id")
+
+        msg1 = create_device_message(device=device1)
+        msg2 = create_device_message(device=device2)
+        msg3 = create_device_message(device=device1)
+
+        params = {'device_id': device1.id}
+        res = self.client.get(DEVICEMESSAGES_URL, params)
+
+        deviceMessages = DeviceMessage.objects.all() \
+            .order_by('-id').filter(device=device1)
+        serializer = DeviceMessageSerializer(deviceMessages, many=True)
+        self.assertEqual(res.data, serializer.data)
+
+        self.assertIn(msg1, deviceMessages)
+        self.assertIn(msg3, deviceMessages)
+        self.assertNotIn(msg2, deviceMessages)
+
     def test_filtering_messages_by_device(self):
         """Test filtering messages by device"""
 
@@ -87,7 +109,9 @@ class PrivateDeviceMessageApiTests(TestCase):
         msg2 = create_device_message(device=device2)
         msg3 = create_device_message(device=device1)
 
-        res = self.client.get(DEVICEMESSAGES_URL, {'device_id': device1.id})
+        params = {'device': device1.device_id}
+        res = self.client.get(DEVICEMESSAGES_URL, params)
+
         deviceMessages = DeviceMessage.objects.all() \
             .order_by('-id').filter(device=device1)
         serializer = DeviceMessageSerializer(deviceMessages, many=True)

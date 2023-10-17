@@ -15,7 +15,7 @@ def create_user(**params):
     return get_user_model().objects.create_user(**params)
 
 
-def create_device(**params):
+def create_device(**params) -> Device:
     """Helper function. Create device."""
     defaults = {
         "device_id": 'SomeDeviceId',

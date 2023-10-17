@@ -47,6 +47,22 @@ class DeviceViewSet(viewsets.ModelViewSet):
             print(serializer.errors)
 
 
+@extend_schema_view(
+    list=extend_schema(
+        parameters=[
+            OpenApiParameter(
+                'device_id',
+                OpenApiTypes.INT,
+                description='Filter by devices.',
+            ),
+            OpenApiParameter(
+                'device',
+                OpenApiTypes.STR,
+                description='Filter by device name.',
+            ),
+        ]
+    )
+)
 class DeviceMessageViewSet(viewsets.ModelViewSet):
     """View for manage topic APIs."""
     serializer_class = serializers.DeviceMessageDetailSerializer
@@ -62,7 +78,7 @@ class DeviceMessageViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        """Create a new device."""
+        """Create a new message."""
         if serializer.is_valid():
             serializer.save()
         else:
@@ -70,27 +86,26 @@ class DeviceMessageViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         """Filter queryset to device."""
-        device_id = bool(
+
+        b_device_id = bool(
             int(self.request.query_params.get('device_id', 0))
         )
+        b_device = bool(
+            self.request.query_params.get('device', 0)
+        )
+
         queryset = self.queryset
-        if device_id:
+        if b_device_id:
+            device_id = self.request.query_params.get('device_id', 0)
             queryset = queryset.filter(
-                device=self.request.query_params.get('device_id', 0)
+                device=device_id
+            )
+
+        if b_device:
+            device_name = self.request.query_params.get('device', 0)
+            device_id = Device.objects.filter(device_id=device_name)
+            queryset = queryset.filter(
+                device__id__in=device_id
             )
 
         return queryset.order_by('-id').distinct()
-
-
-# @extend_schema_view(
-#     list=extend_schema(
-#         parameters=[
-#             OpenApiParameter(
-#                 'devices',
-#                 OpenApiTypes.INT,
-#                 description='Filter by devices.',
-#             ),
-
-#         ]
-#     )
-# )
