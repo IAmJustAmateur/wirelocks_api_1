@@ -77,3 +77,10 @@ class DeviceMessage(TimeStampMixin):
             f'{self.device.device_id}: {self.id}: {self.message_text}: '
             f'{self.created_at}: {self.updated_at}'
         )
+
+class DeviceProgram(TimeStampMixin):
+    """Device program"""
+    device = models.ForeignKey(Device, null=False, on_delete=models.CASCADE)
+    # program_id
+    # developer
+    # code

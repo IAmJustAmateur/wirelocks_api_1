@@ -130,9 +130,15 @@ class PrivateDeviceMessageApiTests(TestCase):
         payload = {
             "device": device.id,
             "message_text": "some text",
-            "other_info": other_info,
+            "other_info": json.dumps(other_info)
         }
-        res = self.client.post(DEVICEMESSAGES_URL, data = json.dumps(payload))
+        #data = json.dumps(payload)
+        #from pprint import pprint
+        #pprint(data)
+        #print(DEVICEMESSAGES_URL)
+        #res = self.client.post(DEVICEMESSAGES_URL, data = json.dumps(payload))
+        res = self.client.post(DEVICEMESSAGES_URL, data = payload)
+        #pprint(res)
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         deviceMessage = DeviceMessage.objects.get(id=res.data['id'])
