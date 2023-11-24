@@ -130,9 +130,9 @@ class PrivateDeviceMessageApiTests(TestCase):
         payload = {
             "device": device.id,
             "message_text": "some text",
-            "other_info": json.dumps(other_info),
+            "other_info": other_info,
         }
-        res = self.client.post(DEVICEMESSAGES_URL, payload)
+        res = self.client.post(DEVICEMESSAGES_URL, data = json.dumps(payload))
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         deviceMessage = DeviceMessage.objects.get(id=res.data['id'])
