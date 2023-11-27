@@ -11,9 +11,9 @@ from core import models
 class UserAdmin(BaseUserAdmin):
     """Define the admin pages for users."""
     ordering = ['id']
-    list_display = ['email', 'is_staff']
+    list_display = ['email', 'is_staff', 'is_developer']
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('email', 'password', 'is_developer')}),
         (
             _('Permissions'),
             {
@@ -37,6 +37,7 @@ class UserAdmin(BaseUserAdmin):
                 'password2',
                 'is_staff',
                 'is_superuser',
+                'is_developer'
             ),
         }),
     )
@@ -69,3 +70,5 @@ admin.site.register(models.User, UserAdmin)
 
 admin.site.register(models.Device, DeviceAdmin)
 admin.site.register(models.DeviceMessage, DeviceMessageAdmin)
+
+admin.site.register(models.DeviceProgram)

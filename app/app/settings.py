@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'user',
     'device',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -151,3 +152,8 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
 }
+
+LOGIN_URL = "/accounts/login/"
+TEMPLATE_DIRS = [
+    os.path.join(BASE_DIR, 'templates/'),
+]

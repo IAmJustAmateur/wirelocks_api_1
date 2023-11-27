@@ -24,6 +24,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from core import views as core_views
+#from accounts import views as account_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,4 +37,7 @@ urlpatterns = [
     ),
     path('api/user/', include('user.urls')),
     path('api/device/', include('device.urls')),
+    path('accounts/', include('accounts.urls', 'accounts')),
+    #
+    #path('/', account_views.UserLoginView.as_view(), name='login'),
 ]

@@ -85,7 +85,7 @@ class DeviceProgram(TimeStampMixin):
     device = models.ForeignKey(Device, null=False, on_delete=models.CASCADE)
     program_id = models.CharField(null=False, blank=False, max_length=255)
     developer = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
-    code = models.TextField(null=False, blank=False)
+    program_code = models.TextField(null=False, blank=False)
     executionState_choices = [
         ('awaiting_execution', 'Awaiting Execution'),
         ('execution_started', 'Execution Started'),
