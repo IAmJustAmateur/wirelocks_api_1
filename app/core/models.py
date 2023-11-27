@@ -41,6 +41,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
+    is_developer = models.BooleanField(default=False)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -81,6 +83,18 @@ class DeviceMessage(TimeStampMixin):
 class DeviceProgram(TimeStampMixin):
     """Device program"""
     device = models.ForeignKey(Device, null=False, on_delete=models.CASCADE)
-    # program_id
-    # developer
-    # code
+    program_id = models.CharField(null=False, blank=False, max_length=255)
+    developer = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+    code = models.TextField(null=False, blank=False)
+    executionState_choices = [
+        ('awaiting_execution', 'Awaiting Execution'),
+        ('execution_started', 'Execution Started'),
+        ('execution_finished_ok', 'Execution Finished with OK'),
+        ('execution_failed_error_code', 'Execution Failed with Error Code')
+    ]
+    executionState = models.CharField(
+        max_length=30,
+        choices=executionState_choices,
+        default='awaiting_execution'
+    )
+    errorCode = models.CharField(max_length=30, blank=True)
