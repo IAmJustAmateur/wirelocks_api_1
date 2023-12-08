@@ -16,7 +16,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from core.models import (
     Device,
-    DeviceMessage
+    DeviceMessage,
+    DeviceProgram
 )
 from . import serializers
 

@@ -43,3 +43,30 @@ class TestModels(TestCase):
 
         )
         self.assertGreaterEqual(deviceMessage.created_at, device.created_at)
+
+    def test_create_deviceProgram(self):
+        """Test creating device program is successful."""
+
+        user = models.User.objects.create(
+            email = 'email@example.com',
+            password = "testpass",
+            is_superuser = True,
+            is_developer = True,
+            is_staff = True,
+            is_active = True
+        )
+
+        device = models.Device.objects.create(
+            device_id='SomeDeviceId',
+            device_info={'info': 'some info', 'some number': 123},
+        )
+
+        program = models.DeviceProgram.objects.create(
+            # device = device,
+            program_id = "this is simple test program",
+            program_code = "this is program code",
+            developer = user
+        )
+        self.assertEqual(str(program), "this is program code")
+        self.assertEqual(program.program_id, "this is simple test program")
+        self.assertEqual(program.developer.id, user.id)

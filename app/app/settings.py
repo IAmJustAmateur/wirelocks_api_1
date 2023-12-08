@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'user',
     'device',
-    'accounts'
+    'accounts',
+    'deviceprogram',
 ]
 
 MIDDLEWARE = [

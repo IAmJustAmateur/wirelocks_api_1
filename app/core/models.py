@@ -82,7 +82,7 @@ class DeviceMessage(TimeStampMixin):
 
 class DeviceProgram(TimeStampMixin):
     """Device program"""
-    device = models.ForeignKey(Device, null=False, on_delete=models.CASCADE)
+    device = models.ForeignKey(Device, null=True, on_delete=models.CASCADE)
     program_id = models.CharField(null=False, blank=False, max_length=255)
     developer = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     program_code = models.TextField(null=False, blank=False)
@@ -98,3 +98,6 @@ class DeviceProgram(TimeStampMixin):
         default='awaiting_execution'
     )
     errorCode = models.CharField(max_length=30, blank=True)
+
+    def __str__(self):
+        return self.program_code

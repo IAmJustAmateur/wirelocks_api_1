@@ -6,7 +6,8 @@ from django.contrib.auth import get_user_model
 
 from core.models import (
     Device,
-    DeviceMessage
+    DeviceMessage,
+    DeviceProgram
 )
 
 
@@ -36,3 +37,14 @@ def create_device_message(device, **params):
     defaults.update(params)
     deviceMessage = DeviceMessage.objects.create(device=device, **defaults)
     return deviceMessage
+
+
+def create_program(developer, **params):
+    """Helper function. Create program"""
+    defaults = {
+        'program_id': 'This is program id',
+        'program_code': 'This is program code'
+    }
+    defaults.update(params)
+    program = DeviceProgram.objects.create(developer=developer, **defaults)
+    return program
