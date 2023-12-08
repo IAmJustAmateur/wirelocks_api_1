@@ -15,6 +15,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'templates/')
 
 
 # Quick-start development settings - unsuitable for production
@@ -68,7 +69,7 @@ ROOT_URLCONF = 'app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR,],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -154,6 +155,3 @@ SPECTACULAR_SETTINGS = {
 }
 
 LOGIN_URL = "/accounts/login/"
-TEMPLATE_DIRS = [
-    os.path.join(BASE_DIR, 'templates/'),
-]

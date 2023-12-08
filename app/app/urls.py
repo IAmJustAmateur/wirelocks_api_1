@@ -38,6 +38,7 @@ urlpatterns = [
     path('api/user/', include('user.urls')),
     path('api/device/', include('device.urls')),
     path('accounts/', include('accounts.urls', 'accounts')),
+    path('', include('accounts.urls', 'accounts')),
     #
     #path('/', account_views.UserLoginView.as_view(), name='login'),
 ]
