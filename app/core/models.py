@@ -77,3 +77,13 @@ class DeviceMessage(TimeStampMixin):
             f'{self.device.device_id}: {self.id}: {self.message_text}: '
             f'{self.created_at}: {self.updated_at}'
         )
+
+
+class Order(models.Model):
+    """Order"""
+    order_text = models.CharField(max_length=255)
+    order_file = models.FileField()
+
+    def __str__(self):
+        return f"{self.order_text}, {self.order_file.name}"
+

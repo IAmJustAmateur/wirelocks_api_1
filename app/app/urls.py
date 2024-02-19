@@ -36,4 +36,5 @@ urlpatterns = [
     ),
     path('api/user/', include('user.urls')),
     path('api/device/', include('device.urls')),
+    path('api/order/', include('order.urls')),
 ]
